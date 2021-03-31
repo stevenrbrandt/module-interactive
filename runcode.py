@@ -1,18 +1,18 @@
 # Cling alternative
 import sys
+try:
+    from termcolor import colored
+except:
+    def colored(txt,_):
+        return txt
 verstr = "%x" % sys.hexversion
 verno = int(verstr[1:3])
 import os
 try:
     env = get_ipython().__class__.__name__
     from IPython.core.magic import register_cell_magic
-    from IPython.display import display, HTML
 except:
     def register_cell_magic(x):
-        return x
-    def display(x):
-        print(x)
-    def HTML(x):
         return x
     env = "text"
 home = os.environ["HOME"]
@@ -53,7 +53,7 @@ from time import time
 from random import randint
 p = Popen(["make","-f",clangw+".mk"],stdout=PIPE, stderr=PIPE, universal_newlines=True)
 out, err = p.communicate()
-print(out, err)
+#print(out, err)
 
 session = "pid"+str(os.getpid())
 sequence = 0
@@ -75,20 +75,19 @@ def expand_flags(line):
             return line
 
 def showfile(fname):
-    import html
     with open(fname, "r") as fd:
         contents = fd.read()
-    display(HTML("<pre style='background: #AAAAFF'>"+html.escape(contents)+"</pre>"))
+    print(colored(contents,"yellow"))
 
 def run_cmd(args):
     if verbosity > 0:
-        display(HTML("<pre style='color: blue'>"+" ".join(args)+"</pre>"))
+        print(colored(" ".join(args),"cyan"))
     p = Popen(args, stdout=PIPE, stderr=PIPE, universal_newlines=True)
     out, err = p.communicate()
     if out.strip() != "":
         print(out,end='')
     if err.strip() != "":
-        display(HTML("<pre style='color: red'>"+err+"</pre>"))
+        print(colored(err,"red"))
     return p.returncode
 
 for fname in os.listdir("."):
@@ -207,7 +206,7 @@ def def_code(line, cell):
     finally:
         rm("tmp%s-%d.o" % (session, sequence))
         t2 = time()
-        display(HTML("<span style='color: green'>compile time: %.2f</span>" % (t2-t1)))
+        print(colored("compile time: %.2f" % (t2-t1),"green"))
 
 def run_code_(line, code):
     global sequence, headers
@@ -243,8 +242,8 @@ def run_code_(line, code):
     if r == 0:
         run_cmd(["./exec_step_%s" % session])
     t3 = time()
-    display(HTML("<span style='color: green'>compile time: %.2f</span>" % (t2-t1)))
-    display(HTML("<span style='color: green'>run time: %.2f</span>" % (t3-t2)))
+    print(colored("compile time: %.2f" % (t2-t1),"green"))
+    print(colored("run time: %.2f" % (t3-t2),"green"))
 
 @register_cell_magic
 def run_code(line, code):

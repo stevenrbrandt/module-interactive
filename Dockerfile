@@ -15,7 +15,7 @@ COPY hpx-build.sh /usr/local/bin/
 RUN bash /usr/local/bin/hpx-build.sh
 
 RUN python3 -m ensurepip
-RUN python3 -m pip install jupyter
+RUN python3 -m pip install jupyter termcolor
 RUN mkdir -p /usr/local/python
 WORKDIR /usr/local/python
 COPY runcode.py .

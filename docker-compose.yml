@@ -1,0 +1,18 @@
+version: '2'
+
+services:
+
+  clang-workspace:
+    # Download the full git repo and
+    # uncomment the next lines if you want to build
+    build:
+        context: .
+        dockerfile: Dockerfile
+    image: stevenrbrandt/clangw
+    privileged: true
+    container_name: clangw
+    user: jovyan
+    environment:
+      - "PORT=8023"
+    ports:
+      - "8023:8023"

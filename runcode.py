@@ -16,20 +16,20 @@ except:
         return x
     env = "text"
 home = os.environ["HOME"]
-clangw = os.path.join(home, "clangw")
-with open(clangw+".mk","w") as fd:
-    print("OBJ = %s.o" % clangw, file=fd)
-    print("PCM = %s.pcm" % clangw, file=fd)
+clangmi = os.path.join(home, "clangmi")
+with open(clangmi+".mk","w") as fd:
+    print("OBJ = %s.o" % clangmi, file=fd)
+    print("PCM = %s.pcm" % clangmi, file=fd)
     print("""
-OBJ = /home/jovyan/clangw.o
-PCM = /home/jovyan/clangw.pcm
-SHARED = /home/jovyan/clangw.so
+OBJ = /home/jovyan/clangmi.o
+PCM = /home/jovyan/clangmi.pcm
+SHARED = /home/jovyan/clangmi.so
 PYVER = {verno}
 
 SRC_DIR = /usr/local/src
-OBJ_SRC = $(SRC_DIR)/clangw.cpp
-PCM_SRC = $(SRC_DIR)/clangw.cppm
-LIB_SRC = $(SRC_DIR)/clangwpy11.cpp
+OBJ_SRC = $(SRC_DIR)/clangmi.cpp
+PCM_SRC = $(SRC_DIR)/clangmi.cppm
+LIB_SRC = $(SRC_DIR)/clangmipy11.cpp
 SEG_H = $(SRC_DIR)/Seg.hpp
 all : $(OBJ) $(PCM) $(SHARED)
 
@@ -51,7 +51,7 @@ from subprocess import Popen, PIPE, call
 import re
 from time import time
 from random import randint
-p = Popen(["make","-f",clangw+".mk"],stdout=PIPE, stderr=PIPE, universal_newlines=True)
+p = Popen(["make","-f",clangmi+".mk"],stdout=PIPE, stderr=PIPE, universal_newlines=True)
 out, err = p.communicate()
 #print(out, err)
 
@@ -138,7 +138,7 @@ def def_code_(line, cell):
         if sequence > 1:
             print("export import tmp%d;" % (sequence-1), file=fd)
         else:
-            print("export import clangw; // initial load", file=fd)
+            print("export import clangmi; // initial load", file=fd)
         for h in headers:
             print(h, file=fd)
         if has_export:
@@ -156,7 +156,7 @@ def def_code_(line, cell):
     if sequence > 1:
         cmd += ["-fmodule-file=tmp%s-%d.pcm" % (session, sequence-1)]
     else:
-        cmd += ["-fmodule-file=%s/clangw.pcm"  % home]
+        cmd += ["-fmodule-file=%s/clangmi.pcm"  % home]
     cmd += modflags + flags
     r = run_cmd(cmd)
     if r != 0:
@@ -166,7 +166,7 @@ def def_code_(line, cell):
         if sequence > 1:
             print("import tmp%d;" % (sequence-1), file=fd)
         else:
-            print("import clangw;", file=fd)
+            print("import clangmi;", file=fd)
         for h in headers:
             print(h, file=fd)
         print(code, file=fd)
@@ -175,7 +175,7 @@ def def_code_(line, cell):
         showfile('tmp%s-%d.cpp' % (session, sequence))
     exec_file = "exec_ar_%s.a" % session
     if sequence == 1: # zzz
-        cmd = ["ar", "cr", exec_file, clangw+".o"]
+        cmd = ["ar", "cr", exec_file, clangmi+".o"]
         run_cmd(cmd)
     cmd = ["clang++","-DBOOST_DISABLE_ASSERTS",cxx_std,"-fmodules-ts"]
     cmd += ["-c","tmp%s-%d.cpp" % (session, sequence)]
@@ -186,8 +186,8 @@ def def_code_(line, cell):
         cmd += ["-fmodule-file=tmp%s-%d.pcm" % (session, sequence-1)]
     else: # yyy
         cmd += ["exec_ar_%s.a" % session,"-Wno-unused-command-line-argument"]
-        cmd += ["-fmodule-file=%s/clangw.pcm" % home]
-        #cmd += ["%s/clangw.o" % home]
+        cmd += ["-fmodule-file=%s/clangmi.pcm" % home]
+        #cmd += ["%s/clangmi.o" % home]
     cmd += modflags + flags
     r = run_cmd(cmd)
     if r != 0:
@@ -218,7 +218,7 @@ def run_code_(line, code):
         if sequence > 0:
             print("import tmp%d;" % sequence, file=fd)
         else:
-            print("import clangw;",file=fd)
+            print("import clangmi;",file=fd)
         for h in headers:
             print(h, file=fd)
         headers = headers[:headers_len]
@@ -235,8 +235,8 @@ def run_code_(line, code):
         cmd += ["-fmodule-file=tmp%s-%d.pcm" % (session, sequence), "exec_ar_%s.a" % session]
         cmd += ["-Wno-unused-command-line-argument"]
     else:# yyy
-        cmd += ["-fmodule-file=%s/clangw.pcm" % home]
-        cmd += ["%s/clangw.o" % home]
+        cmd += ["-fmodule-file=%s/clangmi.pcm" % home]
+        cmd += ["%s/clangmi.o" % home]
     r = run_cmd(cmd)
     t2 = time()
     if r == 0:

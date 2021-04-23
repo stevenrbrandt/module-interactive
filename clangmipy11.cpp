@@ -25,7 +25,7 @@ struct Array_ptr {
     }
 };
 
-PYBIND11_MODULE(clangw, m) {
+PYBIND11_MODULE(clangmi, m) {
     py::class_<Array_ptr>(m, "Array", py::buffer_protocol())
         .def_buffer([](Array_ptr& a) -> py::buffer_info {
             return py::buffer_info(

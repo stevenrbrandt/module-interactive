@@ -1,4 +1,4 @@
-export module clangw;
+export module clangmi;
 export import <cstddef>;
 export import <iostream>;
 export import <string>;

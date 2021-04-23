@@ -8,9 +8,9 @@ services:
     build:
         context: .
         dockerfile: Dockerfile
-    image: stevenrbrandt/clangw
+    image: stevenrbrandt/clangmi
     privileged: true
-    container_name: clangw
+    container_name: clangmi
     user: jovyan
     environment:
       - "PORT=8023"

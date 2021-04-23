@@ -1,5 +1,5 @@
 cd /
-git clone --depth 1 https://github.com/STEllAR-GROUP/hpx.git
+git clone --depth 1 -b 1.6.0 https://github.com/STEllAR-GROUP/hpx.git
 cp /usr/local/include/cxx17_shared_ptr_array.cpp /hpx/cmake/tests/cxx17_shared_ptr_array.cpp
 rm -fr /hpx/build
 mkdir -p /hpx/build

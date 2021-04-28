@@ -60,6 +60,7 @@ sequence = 0
 verbosity = 0
 appflags = []
 modflags = []
+runflags = []
 cxx_std = "-std=c++2a"
 
 def expand_flags(line):
@@ -240,7 +241,7 @@ def run_code_(line, code):
     r = run_cmd(cmd)
     t2 = time()
     if r == 0:
-        run_cmd(["./exec_step_%s" % session])
+        run_cmd(["./exec_step_%s" % session]+runflags)
     t3 = time()
     print(colored("compile time: %.2f" % (t2-t1),"green"))
     print(colored("run time: %.2f" % (t3-t2),"green"))

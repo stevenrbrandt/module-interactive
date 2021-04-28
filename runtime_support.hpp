@@ -29,7 +29,8 @@
 #include <hpx/synchronization/condition_variable.hpp>
 #include <hpx/synchronization/mutex.hpp>
 #include <hpx/synchronization/spinlock.hpp>
-#include <hpx/traits/action_does_termination_detection.hpp>
+//#include <hpx/traits/action_does_termination_detection.hpp>
+#include <hpx/modules/actions_base.hpp>
 
 #include <atomic>
 #include <condition_variable>

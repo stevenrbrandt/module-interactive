@@ -22,6 +22,8 @@ COPY clangmi.cpp .
 COPY clangmi.cppm .
 COPY clangmipy11.cpp .
 COPY Seg.hpp .
+
+# Copying this header makes a minor fix to suppress a warning message.
 COPY runtime_support.hpp /usr/local/include/hpx/runtime/components/server/
 
 RUN useradd -m jovyan
@@ -30,8 +32,11 @@ COPY --chown=jovyan cppnow2021.ipynb /home/jovyan/
 
 RUN mkdir -p /home/jovyan/images
 COPY --chown=jovyan cppnow.png /home/jovyan/images
+COPY runtime_support.hpp /usr/local/include/hpx/runtime/components/server/runtime_support.hpp
 USER jovyan
 WORKDIR /home/jovyan
 ENV PYTHONPATH /usr/local/python
+RUN pip3 install --user jupyterthemes
+RUN /home/jovyan/.local/bin/jt -t solarizedl -tfs 15 -fs 15 -ofs 15 -cellw 100%
 
 CMD jupyter notebook --ip 0.0.0.0 --port $PORT

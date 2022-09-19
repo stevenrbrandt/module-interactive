@@ -1,4 +1,4 @@
-FROM fedora:33
+FROM fedora:35
 
 RUN dnf install -y vim findutils gcc gcc-c++ make git svn curl cmake python3 \
                    boost-devel gperftools-devel hwloc-devel libatomic vim gdb file \

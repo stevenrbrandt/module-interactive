@@ -5,8 +5,7 @@ try:
 except:
     def colored(txt,_):
         return txt
-verstr = "%x" % sys.hexversion
-verno = int(verstr[1:3])
+verno = sys.version_info.minor
 import os
 try:
     env = get_ipython().__class__.__name__

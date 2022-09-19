@@ -1,10 +1,10 @@
-FROM fedora:35
+FROM fedora:36
 
 RUN dnf install -y vim findutils gcc gcc-c++ make git svn curl cmake python3 \
                    boost-devel gperftools-devel hwloc-devel libatomic vim gdb file \
                    python3-pybind11 python3-devel python3-numpy python3-matplotlib
 
-ENV BUILD_PROCS 20
+ENV BUILD_PROCS 3
 
 RUN dnf install -y clang libcxx-devel
 

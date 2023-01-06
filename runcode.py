@@ -1,5 +1,8 @@
 # Cling alternative
 import sys
+import pwd
+import os
+home = pwd.getpwuid(os.getuid()).pw_dir
 try:
     from termcolor import colored
 except:
@@ -14,14 +17,13 @@ except:
     def register_cell_magic(x):
         return x
     env = "text"
-home = os.environ["HOME"]
 clangmi = os.path.join(home, "clangmi")
 with open(clangmi+".mk","w") as fd:
     print("OBJ = %s.o" % clangmi, file=fd)
     print("PCM = %s.pcm" % clangmi, file=fd)
     print("""
-OBJ = /home/jovyan/clangmi.o
-PCM = /home/jovyan/clangmi.pcm
+OBJ = {home}/clangmi.o
+PCM = {home}/clangmi.pcm
 SHARED = /home/jovyan/clangmi.so
 PYVER = {verno}
 
@@ -43,7 +45,7 @@ $(SHARED) : $(OBJ)
 
 clean :
 	rm -f $(OBJ) $(PCM)
-""".format(verno=verno), file=fd)
+""".format(verno=verno,home=home), file=fd)
 
 import sys
 from subprocess import Popen, PIPE, call 

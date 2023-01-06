@@ -201,10 +201,10 @@ def def_code_(line, cell):
         sequence -= 1
 
 @register_cell_magic
-def def_code(line, cell):
+def def_code(line="", code=""):
     t1 = time()
     try:
-        return def_code_(line, cell)
+        return def_code_(line, code)
     finally:
         rm("tmp%s-%d.o" % (session, sequence))
         t2 = time()
@@ -248,7 +248,7 @@ def run_code_(line, code):
     print(colored("run time: %.2f" % (t3-t2),"green"))
 
 @register_cell_magic
-def run_code(line, code):
+def run_code(line="", code=""):
     t1 = time()
     try:
         return run_code_(line, code)

@@ -24,7 +24,7 @@ with open(clangmi+".mk","w") as fd:
     print("""
 OBJ = {home}/clangmi.o
 PCM = {home}/clangmi.pcm
-SHARED = /home/jovyan/clangmi.so
+SHARED = {home}/clangmi.so
 PYVER = {verno}
 
 SRC_DIR = /usr/local/src
